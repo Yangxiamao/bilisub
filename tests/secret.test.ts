@@ -3,14 +3,15 @@ import { decryptWith, encryptWith, newDeviceKey } from '../src/store/secret';
 import { fromBase64, toBase64 } from '../src/util/base64';
 
 describe('API key encryption', () => {
-  const KEY = 'AIzaSyDummy-Key_for_tests_0123456789abc';
+  // Deliberately NOT shaped like a real Google API key, so secret scanners stay quiet.
+  const KEY = 'test-api-key-not-real-0123456789';
 
   it('round-trips', async () => {
     const k = await newDeviceKey();
     const blob = await encryptWith(k, KEY);
     expect(blob.v).toBe(1);
     expect(fromBase64(blob.iv).length).toBe(12);
-    expect(blob.ct).not.toContain('AIza');
+    expect(blob.ct).not.toContain('test-api-key');
     expect(await decryptWith(k, blob)).toBe(KEY);
   });
 
