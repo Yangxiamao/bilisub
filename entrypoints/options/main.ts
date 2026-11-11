@@ -21,11 +21,13 @@ async function load(): Promise<void> {
   const s = await getSettings();
   try {
     savedKey = await loadApiKey();
-    $('keyState').textContent = savedKey ? '已加密保存在本机' : '';
+    $('keyState').textContent = savedKey ? ' 已保存。' : '';
+    $('keyState').className = 'ok';
   } catch (e) {
     if (!(e instanceof ApiKeyUnreadableError)) throw e;
     savedKey = '';
-    $('keyState').textContent = '已保存的 Key 无法读取，请重新填写';
+    $('keyState').textContent = ' 已保存的 Key 无法读取，请重新填写。';
+    $('keyState').className = '';
   }
   apiKey.value = savedKey;
   model.value = s.model;

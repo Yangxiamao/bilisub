@@ -37,8 +37,9 @@
         <h2>使用前请阅读</h2>
         <ul>
           <li><b>会产生 Gemini API 费用</b>，从你的 Google 账户扣除。按测试视频实测，每小时音频大约：<span id="costs"></span>。只转写播放位置前方的一段（默认 2 分钟），不会一次转写整部视频。</li>
-          <li><b>音频片段会发送给 Google</b>（Gemini API）进行识别。扩展请求时设置了 <code>store:false</code>。付费项目的数据不会用于训练模型，但 Google 仍可能为防止滥用短期保留日志；免费层项目的数据可能被用于改进 Google 产品。详见 <a href="https://aistudio.google.com/docs/terms" target="_blank" rel="noreferrer">Gemini API 附加服务条款</a>。</li>
-          <li>API Key 只保存在本机浏览器（chrome.storage.local），只会发送给 generativelanguage.googleapis.com。</li>
+          <li><b>音频片段会发送给 Google</b>（Gemini API）进行识别。扩展请求时设置了 <code>store:false</code>。付费项目的数据不会用于改进 Google 产品，但 Google 仍可能为防止滥用短期保留日志；免费层项目的数据可能被用于改进 Google 产品，并可能由人工审阅。详见 <a href="https://aistudio.google.com/docs/terms" target="_blank" rel="noreferrer">Gemini API 附加服务条款</a>。</li>
+          <li>除音频外，还会发送视频的标题、标签和简介，帮助模型写对专有名词。转写结果和视频编号只缓存在本机。扩展没有自己的服务器，不收集任何数据。详见<a href="https://github.com/Yangxiamao/bilisub/blob/main/PRIVACY.md" target="_blank" rel="noreferrer">隐私政策</a>。</li>
+          <li>Google 要求 Gemini API 使用者<b>年满 18 岁</b>，并在 <a href="https://aistudio.google.com/docs/available-regions" target="_blank" rel="noreferrer">Gemini API 支持的地区</a>使用。在<b>欧洲经济区、瑞士、英国</b>必须使用已开启结算的付费项目 Key。</li>
         </ul>
         <div class="actions"><button id="consent">我已了解，开始使用</button><span id="consentState" class="hint"></span></div>
       </section>
@@ -66,6 +67,8 @@
       </section>
 
       <div class="actions"><button id="save">保存</button><span id="saved" class="hint"></span></div>
+
+      <footer class="hint">Gemini 是 Google LLC 的商标。本扩展与哔哩哔哩、Google 均无关联。· <a href="https://github.com/Yangxiamao/bilisub/blob/main/PRIVACY.md" target="_blank" rel="noreferrer">隐私政策</a> · <a href="https://github.com/Yangxiamao/bilisub" target="_blank" rel="noreferrer">项目主页</a></footer>
     </main>
     <script type="module" src="./main.ts"></script>
   </body>

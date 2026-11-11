@@ -43,9 +43,10 @@ npm run build
 ## 费用与隐私
 
 - **会产生 Gemini API 费用**，由你自己的 Google 账号支付。按测试视频实测，每小时音频大约：3.8 Flash $0.13、3.5 Flash-Lite $0.07、3.5 Transcribe $0.24（价格以 Google 官方为准，可能变动）。
-- **视频的音频会发送给 Google** 进行转写。请求里在支持的地方都设置了 `store: false`。使用免费层 API Key 时，Google 可能把数据用于改进产品，详见 Google 的条款。
-- API Key 以明文保存在浏览器的扩展本地存储里，只发送给 `generativelanguage.googleapis.com`。
-- 扩展不收集任何数据，没有自己的服务器。
+- **视频的音频会发送给 Google** 进行转写，同时发送视频的标题、标签和简介（帮助写对专有名词）。请求里在支持的地方都设置了 `store: false`。使用免费层 API Key 时，Google 可能把数据用于改进产品并可能由人工审阅，详见 [Gemini API 附加服务条款](https://aistudio.google.com/docs/terms)。
+- API Key 用 AES-GCM 加密后保存在浏览器的扩展存储里（密钥不可导出，只有扩展自己的页面能解密），只发送给 `generativelanguage.googleapis.com`。
+- 扩展不收集任何数据，没有自己的服务器。完整说明见[隐私政策](PRIVACY.md)。
+- Google 要求 Gemini API 使用者年满 18 岁，并在 [Gemini API 支持的地区](https://aistudio.google.com/docs/available-regions)使用；在欧洲经济区、瑞士、英国必须使用已开启结算的付费项目 Key。
 - 请自行确认你的使用方式符合哔哩哔哩和 Google 的服务条款。
 
 ## 工作原理
