@@ -51,7 +51,7 @@ document.dispatchEvent(new CustomEvent('bilisub:debug', { detail: { cmd: 'state'
 2. 列出 zip 内容：`manifest.json` 在根目录；有 `icon/16.png` 到 `icon/128.png`；没有 `.map`、`docs/`、`tests/`、`webstore/`。
 3. manifest：`permissions` 只有 `storage`，`host_permissions` 只有 Gemini；版本号比上次上传的大。
 4. 把 zip 解压到一个新目录，在 `chrome://extensions` 加载一次，走一遍检查清单 1、4、10、12。
-5. `grep -n "store: false" src/transcriber/gemini.ts` 仍在。
+5. `grep -n "body.store = false" src/transcriber/gemini.ts` 仍有两处（两种转写器的请求都带 `store: false`）。
 
 ## 已知限制
 
