@@ -143,18 +143,20 @@ Albania, Algeria, American Samoa, Andorra, Angola, Anguilla, Antarctica, Antigua
 
 ## 5. 给审核员的测试说明（Test instructions）
 
-审核员没有 Gemini API Key 就无法测试核心功能，可能因此被拒。**需要你决定**是否提供一个测试用 Key：建议在 Google Cloud 控制台单独建一个 Key，限制为只能调用 Generative Language API，设置预算提醒，审核通过后立刻删除。
+决定：不提供测试 Key（2026-11-11）。如果因为审核员无法测试而被拒，再考虑提供一个限额的临时 Key 后重新提交。
 
 ```
-This extension needs a Google Gemini API key (users bring their own).
-Test key (for review only, will be revoked after review): <填写测试 Key>
+This extension requires the user's own Google Gemini API key; we do not provide one.
+A free key can be created in about a minute at https://aistudio.google.com/apikey (Google account required; the free tier is enough for testing).
 
 Steps:
 1. After install, the options page opens. Paste the key into "Gemini API Key", click "我已了解，开始使用" (I understand, start), then "保存" (Save).
 2. Open a Bilibili video without subtitles, e.g. https://www.bilibili.com/video/BV1VXGL6KE9D/
 3. Click the "AI" button in the player control bar (left of the subtitle button). Chinese subtitles appear within about 10 seconds.
 4. Hover the "AI" button to see the buffered seconds; click again to turn it off.
+Without a key, clicking "AI" shows a prompt to open the options page; nothing is sent anywhere.
 The extension only contacts generativelanguage.googleapis.com. Audio is fetched from Bilibili's CDN in the page context.
+Source code: https://github.com/Yangxiamao/bilisub
 ```
 
 ## 6. 账号（只能你本人操作）
