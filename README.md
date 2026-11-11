@@ -19,7 +19,12 @@
 
 ## 安装
 
-目前需要从源码构建：
+**普通用户不需要 Node.js**，任选一种：
+
+- **Chrome 应用商店**：上架后补充链接。
+- **Release 压缩包**：从 GitHub Releases 下载 `bilisub-<版本>-chrome.zip`，解压后在 Chrome 打开 `chrome://extensions`，开启「开发者模式」，点「加载已解压的扩展程序」，选择解压出的目录。
+
+**从源码构建**（开发者，需要 Node.js 20 或更新版本，开发时使用 Node 24）：
 
 ```bash
 git clone https://github.com/Yangxiamao/bilisub.git
@@ -28,9 +33,7 @@ npm install
 npm run build
 ```
 
-然后在 Chrome 打开 `chrome://extensions`，开启「开发者模式」，点「加载已解压的扩展程序」，选择 `.output/chrome-mv3` 目录。
-
-需要 Node.js 20 或更新版本（开发时使用 Node 24）。
+然后在 `chrome://extensions` 加载 `.output/chrome-mv3` 目录。
 
 ## 使用
 
@@ -71,11 +74,12 @@ npm test            # 单元测试（Vitest）
 npm run typecheck
 npm run build       # 输出 .output/chrome-mv3
 npm run dev         # WXT 开发模式
+npm run zip         # 打包商店上传用的 .output/bilisub-<版本>-chrome.zip
 ```
 
 > Windows：请在 PowerShell 或 VS Code 终端里运行 `npm test`。在 Git Bash 里用 `/d/...` 形式的路径会导致 vitest 被加载两次而报错。
 
-浏览器内的手动测试清单和调试命令见 [docs/testing.md](docs/testing.md)。
+浏览器内的手动测试清单、调试命令和发布前检查见 [docs/testing.md](docs/testing.md)；商店文案和后台答卷见 [webstore/listing.md](webstore/listing.md)。
 
 ### 目录
 
@@ -95,6 +99,8 @@ src/
   ui/                   控制栏按钮、播放器内提示、调试面板
   audio/ bridge/ store/ util/
 tests/                  单元测试
+public/icon/            扩展图标（由 webstore/render.py 生成）
+webstore/               商店素材、文案和后台答卷（不进扩展包）
 docs/                   需求、计划、验证记录、手动测试
 ```
 

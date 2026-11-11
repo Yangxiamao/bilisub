@@ -1,7 +1,7 @@
 {
   "name": "bilisub",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "B站无字幕视频：用 Gemini 提前听写中文字幕",
   "license": "MIT",
   "author": "Yangxiamao",

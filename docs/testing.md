@@ -38,6 +38,20 @@ document.dispatchEvent(new CustomEvent('bilisub:debug', { detail: { cmd: 'state'
 11. **已有字幕的视频**：点「AI」提示「已有字幕，再点一次仍然转写」；按钮悬停提示「本视频已有官方字幕」。
 12. **错误处理**：把 Key 改错应提示「API Key 无效或没有权限」、按钮变红、不重试；改回正确的 Key 后自动恢复。断网时提示网络错误并退避重试，恢复后续上。
 13. **导出**：`srt`、`raw` 能下载文件；SRT 里没有相邻重复和时间重叠。
+14. **Key 加密**：在扩展设置页的控制台里只看键名，不打印 Key：
+    ```js
+    const s = await chrome.storage.local.get(); Object.keys(s)   // 有 apiKeyEnc，没有 apiKey
+    ```
+    从 0.1.0 升级时，后台启动后旧的明文 `apiKey` 应自动变成 `apiKeyEnc`；设置页提示「已保存。」；转写正常。
+15. **名称和图标**：`chrome://extensions`、工具栏、弹窗、设置页都显示新名称「BiliSub：B站 AI 中文字幕」和图标；设置页页脚有隐私政策链接。
+
+## 发布前检查
+
+1. `npm run typecheck`、`npm test`、`npm run zip` 都通过。
+2. 列出 zip 内容：`manifest.json` 在根目录；有 `icon/16.png` 到 `icon/128.png`；没有 `.map`、`docs/`、`tests/`、`webstore/`。
+3. manifest：`permissions` 只有 `storage`，`host_permissions` 只有 Gemini；版本号比上次上传的大。
+4. 把 zip 解压到一个新目录，在 `chrome://extensions` 加载一次，走一遍检查清单 1、4、10、12。
+5. `grep -n "store: false" src/transcriber/gemini.ts` 仍在。
 
 ## 已知限制
 
