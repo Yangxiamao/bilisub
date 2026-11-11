@@ -1,0 +1,32 @@
+{
+  "name": "bilisub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "B站无字幕视频：用 Gemini 提前听写中文字幕",
+  "license": "MIT",
+  "author": "Yangxiamao",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yangxiamao/bilisub.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "postinstall": "wxt prepare",
+    "eval:fetch": "tsx scripts/eval/fetch-audio.ts",
+    "eval:s2": "tsx scripts/eval/s2-formats.ts",
+    "eval:s3": "tsx scripts/eval/s3-matrix.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "dotenv": "^18.0.10",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "wxt": "^0.21.5"
+  }
+}

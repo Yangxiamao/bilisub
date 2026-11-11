@@ -1,0 +1,10 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "entrypoints", "tests", "scripts", ".wxt/wxt.d.ts"]
+}

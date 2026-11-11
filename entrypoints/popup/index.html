@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>BiliSub</title>
+    <style>
+      :root { color-scheme: light dark; --bg: #fff; --fg: #18191c; --muted: #61666d; --line: #e3e5e7; --accent: #00aeec; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #1b1c1f; --fg: #e7e9eb; --muted: #9499a0; --line: #34363b; } }
+      body { margin: 0; width: 300px; font: 13px/1.5 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--fg); }
+      main { padding: 12px 14px; display: grid; gap: 10px; }
+      h1 { font-size: 14px; margin: 0; }
+      #status { padding: 8px; border: 1px solid var(--line); border-radius: 6px; min-height: 2.5em; }
+      .hint { color: var(--muted); font-size: 12px; }
+      button { font: inherit; padding: 7px; border: 0; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer; }
+      button:disabled { opacity: .5; cursor: default; }
+      button.secondary { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>BiliSub · Gemini 中文字幕</h1>
+      <div id="status" class="hint">读取中…</div>
+      <button id="toggle" disabled>开启 AI 字幕</button>
+      <button id="options" class="secondary">设置</button>
+      <div class="hint">也可以点击播放器控制栏上的「AI」按钮开关。</div>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BiliSub 设置</title>
+    <meta name="manifest.open_in_tab" content="true" />
+    <style>
+      :root { color-scheme: light dark; --bg: #f6f7f8; --card: #fff; --fg: #18191c; --muted: #61666d; --line: #e3e5e7; --accent: #00aeec; --warn: #fff6e5; --warnline: #ffb027; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #17181a; --card: #222327; --fg: #e7e9eb; --muted: #9499a0; --line: #34363b; --warn: #3a2f1a; } }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+      main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; display: grid; gap: 16px; }
+      h1 { font-size: 20px; margin: 0; }
+      section { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 12px; }
+      h2 { font-size: 15px; margin: 0; }
+      label.row { display: grid; grid-template-columns: 160px 1fr; gap: 8px; align-items: center; }
+      @media (max-width: 520px) { label.row { grid-template-columns: 1fr; } }
+      input[type=text], input[type=password], input[type=number], select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; width: 100%; }
+      .hint { color: var(--muted); font-size: 12px; }
+      button { font: inherit; padding: 7px 14px; border: 0; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer; }
+      button.secondary { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+      .notice { background: var(--warn); border: 1px solid var(--warnline); }
+      .notice ul { margin: 0; padding-left: 20px; }
+      table { border-collapse: collapse; width: 100%; font-size: 13px; }
+      td, th { border-bottom: 1px solid var(--line); padding: 6px 4px; text-align: left; }
+      .ok { color: #2fae5c; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>BiliSub · Gemini 中文字幕</h1>
+
+      <section class="notice" id="notice">
+        <h2>使用前请阅读</h2>
+        <ul>
+          <li><b>会产生 Gemini API 费用</b>，从你的 Google 账户扣除。按测试视频实测，每小时音频大约：<span id="costs"></span>。只转写播放位置前方的一段（默认 2 分钟），不会一次转写整部视频。</li>
+          <li><b>音频片段会发送给 Google</b>（Gemini API）进行识别。扩展请求时设置了 <code>store:false</code>。付费项目的数据不会用于训练模型，但 Google 仍可能为防止滥用短期保留日志；免费层项目的数据可能被用于改进 Google 产品。详见 <a href="https://aistudio.google.com/docs/terms" target="_blank" rel="noreferrer">Gemini API 附加服务条款</a>。</li>
+          <li>API Key 只保存在本机浏览器（chrome.storage.local），只会发送给 generativelanguage.googleapis.com。</li>
+        </ul>
+        <div class="actions"><button id="consent">我已了解，开始使用</button><span id="consentState" class="hint"></span></div>
+      </section>
+
+      <section>
+        <h2>基本设置</h2>
+        <label class="row">Gemini API Key <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…" /></label>
+        <label class="row">模型 <select id="model"></select></label>
+        <label class="row">预读时长（秒）<input id="lookahead" type="number" min="30" max="600" step="10" /></label>
+        <div class="hint">保持"当前位置 → 当前位置 + 预读时长"已转写。越长越不容易等待，但拖动进度条后被丢弃的转写也越多。</div>
+        <label class="row">同时请求数 <input id="concurrency" type="number" min="1" max="6" step="1" /></label>
+        <label class="row">连播时自动继续 <span><input id="autoContinue" type="checkbox" /> 切换分 P 或合集下一集时，在同一标签页继续转写（已有官方字幕的视频除外）</span></label>
+      </section>
+
+      <section>
+        <h2>高级 / 调试</h2>
+        <label class="row">字幕显示方式 <select id="renderer">
+          <option value="auto">自动（优先使用 B 站字幕模块，失败时自绘）</option>
+          <option value="official">只用 B 站字幕模块</option>
+          <option value="overlay">只用自绘字幕层</option>
+        </select></label>
+        <label class="row">调试模式 <span><input id="debug" type="checkbox" /> 显示调试面板、控制台日志，可导出 SRT 和原始响应</span></label>
+        <div class="actions"><button class="secondary" id="clearCache">清空字幕缓存</button><span id="cacheState" class="hint"></span></div>
+      </section>
+
+      <div class="actions"><button id="save">保存</button><span id="saved" class="hint"></span></div>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
