@@ -22,7 +22,7 @@
 **普通用户不需要 Node.js**，任选一种：
 
 - **Chrome 应用商店**：上架后补充链接。
-- **Release 压缩包**：从 GitHub Releases 下载 `bilisub-<版本>-chrome.zip`，解压后在 Chrome 打开 `chrome://extensions`，开启「开发者模式」，点「加载已解压的扩展程序」，选择解压出的目录。
+- **Release 压缩包**：从 [最新 Release](https://github.com/Yangxiamao/bilisub/releases/latest) 下载 `bilisub-<版本>-chrome.zip`，解压到一个固定的文件夹后在 Chrome 打开 `chrome://extensions`，开启「开发者模式」，点「加载已解压的扩展程序」，选择解压出的目录。
 
 **从源码构建**（开发者，需要 Node.js 20 或更新版本，开发时使用 Node 24）：
 
