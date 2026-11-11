@@ -1,16 +1,12 @@
 # secrets
 .env
 .env.*
-!.env.example
 
 # deps / build
 node_modules/
 .output/
 .wxt/
 dist/
-
-# eval outputs (audio clips, raw responses)
-scripts/eval/out/
 
 # OS / editor
 .DS_Store

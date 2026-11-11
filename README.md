@@ -76,17 +76,6 @@ npm run dev         # WXT 开发模式
 
 浏览器内的手动测试清单和调试命令见 [docs/testing.md](docs/testing.md)。
 
-### 评估脚本
-
-`scripts/eval/` 里是开发初期用来比较音频格式、模型和费用的 Node 脚本。使用前先 `cp .env.example .env` 并填写 `GEMINI_API_KEY`，输出写到 `scripts/eval/out/`（已加入 .gitignore）。
-
-```bash
-npm run eval:fetch -- 10:00 10:30     # 按时间拉音频，生成 fMP4 和 ADTS（不需要 Key）
-npm run eval:s2 -- 10:00 10:30        # Gemini 能接受哪些音频格式、计费时长是否正确
-npm run eval:s3                       # 模型对照，生成 out/s3/report.html
-npx tsx scripts/eval/simulate.ts      # 用真实的 Session 代码和 Gemini 模拟播放、拖动和缓存
-```
-
 ### 目录
 
 ```
@@ -104,7 +93,6 @@ src/
   render/               播放器字幕模块渲染器（带可见性自检）和自绘字幕层
   ui/                   控制栏按钮、播放器内提示、调试面板
   audio/ bridge/ store/ util/
-scripts/eval/           评估脚本和端到端模拟
 tests/                  单元测试
 docs/                   需求、计划、验证记录、手动测试
 ```

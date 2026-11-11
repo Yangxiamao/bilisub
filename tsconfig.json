@@ -6,5 +6,5 @@
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src", "entrypoints", "tests", "scripts", ".wxt/wxt.d.ts"]
+  "include": ["src", "entrypoints", "tests", ".wxt/wxt.d.ts"]
 }
