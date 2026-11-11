@@ -7,6 +7,7 @@
 import type { RuntimeRequest, TranscribeRequest, TranscribeResponse } from '../src/bridge/runtime';
 import { Limiter } from '../src/core/limiter';
 import { cache } from '../src/store/cache';
+import { ApiKeyUnreadableError, loadApiKey, migratePlainApiKey } from '../src/store/secret';
 import { getSettings, modelInfo, onSettingsChanged } from '../src/store/settings';
 import { DedicatedTranscriber, GenericTranscriber } from '../src/transcriber/gemini';
 import { classify, transcribeRobust } from '../src/transcriber/robust';
@@ -14,6 +15,10 @@ import type { Transcriber } from '../src/transcriber/types';
 import { fromBase64 } from '../src/util/base64';
 
 export default defineBackground(() => {
+  void migratePlainApiKey()
+    .then((done) => { if (done) console.info('[bilisub] encrypted the API key saved by an older version'); })
+    .catch((e) => console.warn('[bilisub] API key migration failed', e));
+
   const limiter = new Limiter(2);
   void getSettings().then((s) => limiter.setLimit(s.concurrency));
   onSettingsChanged((p) => {
@@ -30,14 +35,22 @@ export default defineBackground(() => {
 
   async function transcribe(msg: TranscribeRequest): Promise<TranscribeResponse> {
     const s = await getSettings();
-    if (!s.apiKey) return { ok: false, code: 'no-key', error: '未设置 Gemini API Key' };
+    let apiKey: string;
+    try {
+      apiKey = await loadApiKey();
+    } catch (e) {
+      if (!(e instanceof ApiKeyUnreadableError)) throw e;
+      console.warn('[bilisub]', e.message, e.cause);
+      return { ok: false, code: 'no-key', error: '已保存的 API Key 无法读取，请在设置页重新填写' };
+    }
+    if (!apiKey) return { ok: false, code: 'no-key', error: '未设置 Gemini API Key' };
     const model = msg.model ?? s.model;
     const ac = new AbortController();
     jobs.set(msg.jobId, ac);
     try {
       return await limiter.run(async () => {
         const r = await transcribeRobust(
-          makeTranscriber(s.apiKey, model),
+          makeTranscriber(apiKey, model),
           { bytes: fromBase64(msg.audio), mimeType: msg.mimeType, duration: msg.duration },
           msg.ctx,
           ac.signal,

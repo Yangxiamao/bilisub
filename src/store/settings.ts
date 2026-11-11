@@ -1,8 +1,11 @@
-/** Extension settings in chrome.storage.local (API key stored in plain text, per RPD). */
+/** Extension settings in chrome.storage.local. The API key is encrypted, see ./secret. */
+import type { EncBlob } from './secret';
+
 export type RendererMode = 'auto' | 'official' | 'overlay';
 
 export interface Settings {
-  apiKey: string;
+  /** Encrypted API key. Only extension pages can decrypt it (loadApiKey). */
+  apiKeyEnc: EncBlob | null;
   model: string;
   /** Seconds of video to keep transcribed ahead of the playhead. */
   lookahead: number;
@@ -19,7 +22,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  apiKey: '',
+  apiKeyEnc: null,
   model: 'gemini-3.8-flash',
   lookahead: 120,
   concurrency: 2,
@@ -47,6 +50,8 @@ export const MODELS: ModelInfo[] = [
 export const modelInfo = (id: string): ModelInfo => MODELS.find((m) => m.id === id) ?? { id, label: id, kind: 'generic', thinkingLevel: 'LOW', usdPerHour: NaN };
 
 const KEYS = Object.keys(DEFAULT_SETTINGS) as Array<keyof Settings>;
+
+export const hasApiKey = (s: Pick<Settings, 'apiKeyEnc'>): boolean => !!s.apiKeyEnc;
 
 export async function getSettings(): Promise<Settings> {
   const s = await browser.storage.local.get(KEYS);

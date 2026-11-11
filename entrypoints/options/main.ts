@@ -1,4 +1,5 @@
 import { send } from '../../src/bridge/runtime';
+import { ApiKeyUnreadableError, loadApiKey, saveApiKey } from '../../src/store/secret';
 import { getSettings, MODELS, setSettings, type RendererMode } from '../../src/store/settings';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -13,9 +14,20 @@ const debug = $<HTMLInputElement>('debug');
 for (const m of MODELS) model.add(new Option(`${m.label} · 约 $${m.usdPerHour.toFixed(2)}/小时`, m.id));
 $('costs').textContent = MODELS.map((m) => `${m.id} 约 $${m.usdPerHour.toFixed(2)}`).join('，');
 
+/** Decrypted key as last loaded, so saving unchanged settings doesn't rewrite it. */
+let savedKey = '';
+
 async function load(): Promise<void> {
   const s = await getSettings();
-  apiKey.value = s.apiKey;
+  try {
+    savedKey = await loadApiKey();
+    $('keyState').textContent = savedKey ? '已加密保存在本机' : '';
+  } catch (e) {
+    if (!(e instanceof ApiKeyUnreadableError)) throw e;
+    savedKey = '';
+    $('keyState').textContent = '已保存的 Key 无法读取，请重新填写';
+  }
+  apiKey.value = savedKey;
   model.value = s.model;
   lookahead.value = String(s.lookahead);
   concurrency.value = String(s.concurrency);
@@ -39,8 +51,9 @@ const clamp = (v: string, lo: number, hi: number, def: number) => {
 };
 
 $('save').addEventListener('click', async () => {
+  const key = apiKey.value.trim();
+  if (key !== savedKey) await saveApiKey(key);
   await setSettings({
-    apiKey: apiKey.value.trim(),
     model: model.value,
     lookahead: clamp(lookahead.value, 30, 600, 120),
     concurrency: clamp(concurrency.value, 1, 6, 2),

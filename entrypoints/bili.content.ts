@@ -18,7 +18,7 @@ import { send, type TabRequest, type TabStatus, type TranscribeResponse } from '
 import { decodeToWav16k } from '../src/audio/wav';
 import { Session, type SessionStatus } from '../src/core/session';
 import { FallbackRenderer, OfficialRenderer, OverlayRenderer, type Renderer } from '../src/render/renderers';
-import { getSettings, modelInfo, onSettingsChanged, type Settings } from '../src/store/settings';
+import { getSettings, hasApiKey, modelInfo, onSettingsChanged, type Settings } from '../src/store/settings';
 import { toSrt } from '../src/subs/srt';
 import type { Cue } from '../src/transcriber/types';
 import { DebugPanel, download } from '../src/ui/debug-panel';
@@ -136,7 +136,7 @@ export default defineContentScript({
         ui?.toast('首次使用前请先阅读费用和隐私说明', { ms: 8000, action: { label: '打开设置', run: () => void send({ type: 'open-options' }) } });
         return;
       }
-      if (!settings.apiKey) {
+      if (!hasApiKey(settings)) {
         ui?.toast('还没有填写 Gemini API Key', { ms: 8000, action: { label: '打开设置', run: () => void send({ type: 'open-options' }) } });
         return;
       }
@@ -254,7 +254,7 @@ export default defineContentScript({
       if ((modelChanged || 'renderer' in p) && session) {
         log('model/renderer changed, restarting session');
         void startSession({ force: true });
-      } else if ('apiKey' in p && session && lastStatus?.state === 'error' && (lastStatus.errorCode === 'auth' || lastStatus.errorCode === 'no-key')) {
+      } else if ('apiKeyEnc' in p && session && lastStatus?.state === 'error' && (lastStatus.errorCode === 'auth' || lastStatus.errorCode === 'no-key')) {
         // User fixed the key from the error toast's "打开设置": resume without extra clicks.
         log('api key changed after auth error, restarting session');
         void startSession({ force: true });

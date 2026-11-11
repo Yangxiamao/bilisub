@@ -46,6 +46,7 @@
       <section>
         <h2>基本设置</h2>
         <label class="row">Gemini API Key <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…" /></label>
+        <div class="hint">Key 用 AES-GCM 加密后保存在本机，只会发送给 generativelanguage.googleapis.com。<span id="keyState" class="ok"></span></div>
         <label class="row">模型 <select id="model"></select></label>
         <label class="row">预读时长（秒）<input id="lookahead" type="number" min="30" max="600" step="10" /></label>
         <div class="hint">保持"当前位置 → 当前位置 + 预读时长"已转写。越长越不容易等待，但拖动进度条后被丢弃的转写也越多。</div>
