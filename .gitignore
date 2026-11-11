@@ -8,6 +8,9 @@ node_modules/
 .wxt/
 dist/
 
+# store asset intermediates (webstore/render.py)
+webstore/out/
+
 # OS / editor
 .DS_Store
 Thumbs.db
