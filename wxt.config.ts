@@ -3,9 +3,12 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   srcDir: '.',
   entrypointsDir: 'entrypoints',
+  // Ship readable code: the store package should match the repository source.
+  vite: () => ({ build: { minify: false } }),
   manifest: {
-    name: 'BiliSub - Gemini 中文字幕',
-    description: '为没有字幕的 B 站视频，用 Gemini 提前听写中文字幕',
+    name: 'BiliSub：B站 AI 中文字幕',
+    description: '为没有字幕的 B 站视频提前听写中文字幕，同步显示在播放器上。需要你自己的 Google Gemini API Key。',
+    homepage_url: 'https://github.com/Yangxiamao/bilisub',
     permissions: ['storage'],
     // Audio is fetched from the page context (CDN needs a bilibili.com Referer),
     // so the only extra host is the Gemini API, called from the service worker.
